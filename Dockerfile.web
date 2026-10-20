@@ -1,0 +1,12 @@
+# Folia 网页端镜像：dist 打成压缩包上传，构建时解压进 nginx
+FROM nginx:alpine
+
+COPY dist.tar.gz /tmp/dist.tar.gz
+RUN tar xzf /tmp/dist.tar.gz -C /usr/share/nginx/html --strip-components=1 \
+    && rm /tmp/dist.tar.gz
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
